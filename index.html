@@ -24,7 +24,7 @@
     const logoutChannel = new BroadcastChannel('logout');
     logoutChannel.addEventListener('message', (messageEvent) => {
       logs.appendChild(
-        document.createTextNode(`${new Date()}: ${messageEvent.data}`)
+        document.createTextNode(`${new Date()}: ${messageEvent.data}\n`)
       )
       alert('Force logout request received');
       console.log('Clear all data in localStorage');
