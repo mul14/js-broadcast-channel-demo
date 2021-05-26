@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BroadcastChannel Demo</title>
+</head>
+
+<body>
+  <p>
+    Open this page on multiple tabs or windows, press Logout. <br>
+    Other tabs/windows should receive the message and run commands.
+  </p>
+
+  <button id="login">Login</button>
+  <button id="logout">Logout</button>
+
+  <h2>Logs</h2>
+  <pre id="logs"></pre>
+
+  <script>
+    const logoutChannel = new BroadcastChannel('logout');
+    logoutChannel.addEventListener('message', (messageEvent) => {
+      logs.appendChild(
+        document.createTextNode(`${new Date()}: ${messageEvent.data}`)
+      )
+      alert('Force logout request received');
+      console.log('Clear all data in localStorage');
+      localStorage.clear();
+    });
+
+    login.addEventListener('click', () => {
+      console.log('Save data to localStorage');
+      localStorage.setItem('authStatus', 'Logged in');
+    });
+
+    logout.addEventListener('click', () => {
+      console.log('Send message to broadcast channel');
+      logoutChannel.postMessage('forceLogoutAllTabs');
+    });
+  </script>
+</body>
+
+</html>
